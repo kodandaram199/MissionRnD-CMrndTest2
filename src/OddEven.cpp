@@ -37,8 +37,56 @@ struct oddevennode{
 	struct oddevennode * random;
 
 };
+void insert(struct oddevennode *head, struct oddevennode * temp, struct oddevennode * temp12)
+{
+	temp12->data = temp->data;
+	temp12->random = NULL;
+	struct oddevennode *current = head;
+	if (head == NULL)
+		head = temp12;
+	else
+	{
+		while (current->random != NULL)
+		{
+			current = current->random;
+			current->random = temp12;
+		}
+	}
+}
 
 int * oddeven_sll(struct oddevennode *head){
+	int *arr = (int*)malloc(2*sizeof(int));
+	if (head == NULL)
+		return NULL;
+	struct oddevennode * temp=head;
+	struct oddevennode *temp1 = (oddevennode *) malloc(sizeof(oddevennode));
+	struct oddevennode *temp2 = (oddevennode *) malloc(sizeof(oddevennode));
+	struct oddevennode *current = head;
+	while (temp != NULL)
+	{
+		if ((temp->data) % 2 == 0)
+		{
+			insert(head,temp,temp1);
+			
+		}
+		else
+		{
+			insert(head,temp,temp2);
+		}
+	}
+	int len1 = 0,len2=0;
+	while (temp1 != NULL)
+	{
+		temp1 = temp1->random;
+		len1++;
+	}
+	while (temp2 != NULL)
+	{
+		temp2 = temp2->random;
+		len2++;
+	}
+	arr[0] = len1;
+	arr[1] = len2;
+	return arr;
 
-	return NULL;
 }

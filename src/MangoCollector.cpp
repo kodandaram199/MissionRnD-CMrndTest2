@@ -68,7 +68,73 @@ struct node{
 	struct node *right;
 };
 
+
+struct node* getParentNode(struct node* root, int data){
+
+	struct node *leftNode = NULL, *rightNode = NULL;
+
+	if (root == NULL)
+		return NULL;
+
+	if (root->left != NULL){
+		if (root->left->data == data)
+			return root;
+	}
+	if (root->right != NULL){
+		if (root->right->data == data)
+			return root;
+	}
+
+	if (root->left != NULL){
+		leftNode = getParentNode(root->left, data);
+	}
+	if (root->right != NULL){
+		rightNode = getParentNode(root->right, data);
+	}
+
+
+	return leftNode != NULL ? leftNode : rightNode;
+
+
+}
+
+int downTraversalDisatnce(struct node *root){
+
+	
+	if (root == NULL)
+		return -1;
+
+	if (root->left == NULL && root->right == NULL)
+		return 0;
+
+	downTraversalDisatnce(root->left);
+	downTraversalDisatnce(root->right);
+
+	
+
+	return 0;
+
+}
+
 int mangocity_count_ways(struct node *startcity,int k, int *shortestpath,int *shortestpathlen){
-	//Just Copy values in shortestpath and shortestpathlen .Dont allocate memory for it .
+	if (startcity==NULL)
 	return -1;
+	struct node* temp = startcity;
+
+	int * arr = (int *)malloc(sizeof(int));
+	int downDistance = downTraversalDisatnce(temp);
+	struct node* parent = getParentNode(startcity, temp->data);
+	if (parent == NULL)
+		return downDistance;
+
+	int topTraversalDistance = mangocity_count_ways(startcity, k, shortestpath, shortestpathlen);
+
+	if (topTraversalDistance == downDistance)
+		return topTraversalDistance;
+
+
+
+	
+
+	return *arr;
 }
